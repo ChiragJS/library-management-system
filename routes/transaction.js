@@ -3,7 +3,6 @@ const router = express.Router();
 const {Books,Members,Transaction} = require('../db');
 
 router.post('/issue',async(req,res)=>{
-    console.log('Control reaches here');
     try{
         const book = await Books.findById(req.body.bookId);
         const member = await Members.findById(req.body.memberId);
@@ -33,17 +32,19 @@ router.post('/return', async (req,res)=>{
         const book = await Books.findById(req.body.bookId);
         const member = await Members.findById(req.body.memberId);
         const transaction = await Transaction.findOne({
-            book : req.body.booId,
+            book : req.body.bookId,
             member : req.body.memberId,
             returnDate: null
         });
         if(transaction){
             transaction.returnDate = req.body.returnDate;
-            const daysLate = (req.body.returnDate - transaction.dueDate)/( 1000 * 60 * 60 * 24);
+            const returnDate = new Date(req.body.returnDate);
+            const dueDate = new Date(transaction.dueDate);
+            const daysLate = (returnDate - dueDate)/( 1000 * 60 * 60 * 24);
             if( daysLate > 0){
-                const lateFee = daysLate *10;
+                let lateFee = daysLate *10;
                 member.outstandingDebt += lateFee;
-                await member.save;
+                await member.save();
             }
             book.quantity++;
             await book.save();

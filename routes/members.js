@@ -42,7 +42,6 @@ router.put('/:id', async (req, res) => {
   const { name, contact, membershipDetails } = req.body;
   try {
     const member = await Members.findByIdAndUpdate(memberId,req.body,{new : true});
-    // await member.save();
     res.json(member);
   } catch (err) {
     res.status(500).json({ error: err.message });
