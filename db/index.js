@@ -18,7 +18,7 @@ const transactionSchema = new mongoose.Schema({
         book : {type : mongoose.Schema.Types.ObjectId, ref : Books},
         member :{type : mongoose.Schema.Types.ObjectId, ref : Members},
         dueDate : {type : Date},
-        returnDate : {type : Date}
+        returnDate : {type : Date , default : null}
 });
 
 const Transaction = mongoose.model('Transaction',transactionSchema);
