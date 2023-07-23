@@ -3,8 +3,9 @@ const router = express.Router();
 const {Members} = require('../db');
 
 // Create a new member
-router.post('/members', async (req, res) => {
- 
+router.post('/', async (req, res) => {
+ console.log('control reacches here');
+ console.log(req.body);
   try {
     const newMember = await Members.create(req.body);
     res.json(newMember);
@@ -14,7 +15,8 @@ router.post('/members', async (req, res) => {
 });
 
 // Read all members
-router.get('/members', async (req, res) => {
+router.get('/', async (req, res) => {
+    
   try {
     const allMembers = await Members.find();
     res.json(allMembers);
@@ -24,7 +26,7 @@ router.get('/members', async (req, res) => {
 });
 
 // Read a specific member by ID
-router.get('/members/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   const memberId = req.params.id;
   try {
     const member = await Members.findById(memberId);
@@ -35,11 +37,11 @@ router.get('/members/:id', async (req, res) => {
 });
 
 // Update a member's details
-router.put('/members/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const memberId = req.params.id;
   const { name, contact, membershipDetails } = req.body;
   try {
-    const member = await Members.findByIdAndUpdate(memberId,req.body);
+    const member = await Members.findByIdAndUpdate(memberId,req.body,{new : true});
     // await member.save();
     res.json(member);
   } catch (err) {
@@ -48,7 +50,7 @@ router.put('/members/:id', async (req, res) => {
 });
 
 // Delete a member
-router.delete('/members/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const memberId = req.params.id;
   try {
     const member = await Members.findByIdAndDelete(memberId);
