@@ -39,7 +39,6 @@ router.get('/:id', async (req, res) => {
 // Update a member's details
 router.put('/:id', async (req, res) => {
   const memberId = req.params.id;
-  const { name, contact, membershipDetails } = req.body;
   try {
     const member = await Members.findByIdAndUpdate(memberId,req.body,{new : true});
     res.json(member);
