@@ -4,6 +4,7 @@ const {Books} = require ('../db');
 
 router.get('/',async( req,res)=>{
     const {query} = req.query;
+    console.log(query);
     try{
         const books = await Books.find({
             $or:[
